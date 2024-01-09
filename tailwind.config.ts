@@ -7,11 +7,20 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-       
-      },
+    screens: {
+      d: '1140px',
+      t: { min: '768px', max: '1139px' },
+      s: { max: '767px' },
     },
+    colors: {
+      primary: '#006D3E',
+      white: '#FFFF'
+    },
+    fontFamily: {
+      sans: ['var(--font-inter)'],
+      mono: ['var(--font-roboto-mono)']
+    }
+
   },
   plugins: [],
 }
