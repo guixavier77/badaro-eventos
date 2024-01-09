@@ -14,13 +14,12 @@ const config: Config = {
     },
     colors: {
       primary: '#006D3E',
-      white: '#FFFF'
+      white: '#FFFF',
     },
     fontFamily: {
       sans: ['var(--font-inter)'],
-      mono: ['var(--font-roboto-mono)']
-    }
-
+      mono: ['var(--font-roboto-mono)'],
+    },
   },
   plugins: [],
 }
