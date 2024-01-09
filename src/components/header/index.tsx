@@ -1,8 +1,16 @@
+'use client'
 import React from 'react'
 import Logo from '../logo'
 import { Button } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
+  const router = useRouter()
+
+  const handleNavigate = () => {
+    router.push('login')
+  }
+
   return (
     <header className="shadow-md">
       <main className="center flex h-20 items-center justify-between px-7">
@@ -16,6 +24,7 @@ const Header = () => {
               color: '#006D3E',
             },
           }}
+          onClick={handleNavigate}
         >
           Login
         </Button>
