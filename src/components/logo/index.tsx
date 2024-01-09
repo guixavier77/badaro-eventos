@@ -3,7 +3,7 @@ import React from 'react'
 const style = 'text-primary font-bold text-xl uppercase'
 const Logo = () => {
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className="flex flex-col items-center justify-center">
       <p className={style}>Badaro</p>
       <p className={style}>Eventos</p>
     </div>
