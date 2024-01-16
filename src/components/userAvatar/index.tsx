@@ -36,6 +36,8 @@ const FadeMenu = () => {
   };
 
   const handleLogout = () => {
+    router.push('/')
+
     signOut();
   }
 

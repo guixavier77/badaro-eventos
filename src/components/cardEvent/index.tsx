@@ -1,57 +1,49 @@
-import React from 'react'
+'use client'
+import React, { useContext, useEffect, useState } from 'react'
+import EventDB from '@/database/wrappers/event'
+import Event from '@/database/entities/event'
+import user from '@/database/wrappers/user'
+import { orderBy, where } from 'firebase/firestore'
+import Image from 'next/image'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PlaceIcon from '@mui/icons-material/Place';
+import { DefaultContext } from '@/contexts/default'
 
-const mock = [
-  {
-    name: 'Badaro Fest',
-    date: '21/07/2024',
-    address: {
-      city: 'Francisco Badaró',
-      street: 'Av. João Pinheiro',
-      number: '86',
-      neighborhood: 'Bairro de Fátima',
-    },
-  },
-  {
-    name: 'Summer Gala',
-    date: '15/08/2024',
-    address: {
-      city: 'Rio de Janeiro',
-      street: 'Copacabana Beach',
-      number: '123',
-      neighborhood: 'Copacabana',
-    },
-  },
-  {
-    name: 'Winter Extravaganza',
-    date: '02/12/2024',
-    address: {
-      city: 'Snowyville',
-      street: 'Frosty Lane',
-      number: '42',
-      neighborhood: 'Icy Heights',
-    },
-  },
-  {
-    name: 'Spring Fling',
-    date: '20/04/2024',
-    address: {
-      city: 'Blossomtown',
-      street: 'Floral Avenue',
-      number: '7',
-      neighborhood: 'Petal Gardens',
-    },
-  },
-]
+
 
 const CardEvent = () => {
+  const { eventsHome} = useContext(DefaultContext);
+
+  
+
   return (
-    <div className='flex w-full justify-between mt-20 rounded-xl'>
-      {mock.map((event) => (
-        <div className='shadow'>
-          <div className='p-4'>
-            <p className='text-center uppercase font-bold text-xl'>{event.name}</p>
-            <p>{event.date}</p>
-            <p>{event.address.city}</p>
+    <div className='flex w-full justify-center gap-5 mt-10 '>
+      {eventsHome.map((event: Event) => (
+        <div className='shadow rounded-md w-1/4'>
+          <div className=''>
+            <Image
+              src={event.image_url || ''}
+              width={300}
+              height={0}
+              className='w-[300px] h-[200px] rounded-xl '
+              alt='Imagem do evento'
+            />
+
+            <div className='p-2'>
+              <p className='text-center uppercase font-bold text-xl'>{event.name}</p>
+
+
+              <div className='flex gap-2 my-2'>
+                <CalendarMonthIcon />
+                <p className='font-bold'>{event.date}</p>
+              </div>
+              <div className='flex gap-2 my-2'>
+                <PlaceIcon />
+                <p className='font-bold'>{event.address.city}, {event.address.neighborhood}, {event.address.street}</p>
+              </div>
+
+
+            </div>
 
           </div>
         </div>

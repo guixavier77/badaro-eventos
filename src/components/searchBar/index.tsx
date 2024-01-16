@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 
 const SearchBar = () => {
   return (
-    <div className="flex  w-1/2 items-center justify-between rounded-2xl bg-primary py-4 pl-8">
+    <div className="flex  w-1/2 items-center justify-between rounded-2xl bg-primary py-2s pl-8">
       <Input
         type="text"
         disableUnderline
