@@ -1,11 +1,14 @@
-import Header from '@/components/header'
+import CardEvent from '@/components/cardEvent'
 import SearchBar from '@/components/searchBar'
 
 export default function Home() {
   return (
-    <main className="">
-      <div className="center mt-10 flex justify-center">
-        <SearchBar />
+    <main className="flex h-screen justify-center bg-[#f1f1f1dd]">
+      <div className="center">
+        <div className="mt-[120px] flex flex-col items-center justify-center">
+          <SearchBar/>
+          <CardEvent />
+        </div>
       </div>
     </main>
   )
