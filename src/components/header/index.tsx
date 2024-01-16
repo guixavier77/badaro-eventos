@@ -20,7 +20,7 @@ const Header = () => {
     router.push('/login')
   }
   return (
-    <header className="shadow-md">
+    <header className="shadow-md bg-white">
       <main className="center flex h-20 items-center justify-between px-7">
         <Logo />
 

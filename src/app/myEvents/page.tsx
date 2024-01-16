@@ -92,9 +92,9 @@ const MyEvents = () => {
 
   return (
     <>
-      <main className="flex h-screen justify-center bg-[#f1f1f1dd]">
+      <main className="flex justify-center bg-[#f1f1f1dd] py-[80px]">
         <div className="center">
-          <div className="mt-[80px] flex flex-row gap-4 items-center justify-beetween  w-full">
+          <div className=" flex flex-row gap-4 items-center justify-beetween  w-full">
 
             <Filter
               options={FilterOptions}
@@ -123,23 +123,23 @@ const MyEvents = () => {
 
           </div>
 
-          <div className='flex w-full justify-center gap-5 mt-10 '>
-
+          <div className='flex w-full justify-center gap-5 mt-10 flex-wrap'>
             {eventsFilter.map((event: Event) => (
-              <div className='flex flex-col w-1/4'>
-                <div className='shadow rounded-t-md '>
+              <div key={event.id} className='flex flex-col w-[264px] h-[400px]'>
+                <div className='shadow rounded-t-md h-full'>
                   <div className=''>
                     <Image
                       src={event.image_url || ''}
                       width={300}
                       height={0}
-                      className='w-[300px] h-[200px] rounded-xl '
+                      className='w-[300px] h-[200px] rounded-xl'
                       alt='Imagem do evento'
                     />
 
                     <div className='p-2'>
-                      <p className='text-center uppercase font-bold text-xl'>{event.name}</p>
-
+                      <p className='text-center uppercase font-bold text-xl overflow-hidden whitespace-nowrap'>
+                        {event.name.length > 10 ? `${event.name.substring(0, 10)}...` : event.name}
+                      </p>
 
                       <div className='flex gap-2 my-2'>
                         <CalendarMonthIcon />
@@ -147,17 +147,26 @@ const MyEvents = () => {
                       </div>
                       <div className='flex gap-2 my-2'>
                         <PlaceIcon />
-                        <p className='font-bold text-sm'>{event.address.city}, {event.address.neighborhood}, {event.address.street}</p>
+                        <p className='font-bold text-sm'>{event.address.city}</p>
+
+                      </div>
+                      {/* 
+                      <div className='flex gap-2 my-2'>
+                        <PlaceIcon />
+                        <p className='font-bold text-sm'>{event.address.neighborhood}, </p>
+
                       </div>
 
+                      <div className='flex gap-2 my-2'>
+                        <PlaceIcon />
+                        <p className='font-bold text-sm'>{event.address.street}</p>
 
+                      </div> */}
                     </div>
-
                   </div>
                 </div>
 
-
-                <div>
+                <div className='flex flex-col justify-between h-full'>
                   <Button
                     className={`${event.status ? 'bg-primary' : 'bg-yellow'}  w-full text-white font-bold`}
                     onClick={() => handleChangeStatus(event)}
@@ -172,7 +181,6 @@ const MyEvents = () => {
                     Editar
                   </Button>
                 </div>
-
               </div>
             ))}
           </div>

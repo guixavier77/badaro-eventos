@@ -22,13 +22,20 @@ export default function RootLayout({
 }) {
   return (
 
-    <html lang="en" style={{ height: '100%' }}>
-      <body className={`${inter.className} h-screen flex flex-col`}>
+    <html lang="en">
+      <body className={`${inter.className} bg-[#f1f1f1dd] h-screen flex flex-col`}>
         <Providers>
           <Header />
-          {children}
+          <div className="flex-grow">
+            {/* Conteúdo da página (children) aqui */}
+            {children}
+          </div>
+
+
+
 
           <Footer />
+
 
 
         </Providers>

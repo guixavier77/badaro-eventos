@@ -10,7 +10,7 @@ export default function Home() {
   console.log(search, 'aq')
 
   return (
-    <main className="flex h-screen justify-center bg-[#f1f1f1dd]">
+    <main className="flex  justify-center bg-[#f1f1f1dd]">
       <div className="center">
         <div className="mt-[60px] flex flex-col items-center justify-center">
           <SearchBar search={search} setsearch={setSearch}/>

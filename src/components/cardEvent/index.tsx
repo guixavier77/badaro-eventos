@@ -18,7 +18,7 @@ const CardEvent = ({search}) => {
   const events = eventsHome.filter(event => event.name.toLowerCase().includes(searchLowercase));
 
   return (
-    <div className='flex w-full justify-center gap-5 mt-10 '>
+    <div className='flex w-full justify-center gap-5 my-10 flex-wrap'>
       {events.map((event: Event) => (
         <div className='shadow rounded-md w-1/4 '>
           <div className=''>
