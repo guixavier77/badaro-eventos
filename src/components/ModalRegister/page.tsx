@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Input, Modal, Typography, FormGroup, FormLabel, Checkbox, Switch } from '@mui/material'
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { Form, useFormik } from 'formik';
 import EventDB from '@/database/wrappers/event';
@@ -8,6 +8,7 @@ import IRegister from '@/interfaces/register';
 import Image from 'next/image';
 import Suafoto from '../../assets/fotoaqui.png'
 import { DefaultContext } from '@/contexts/default';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -15,23 +16,34 @@ import { DefaultContext } from '@/contexts/default';
 
 
 const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister) => {
+  const { user } = useContext(DefaultContext)
+  const [loading, setloading] = useState(false);
 
-  const {user} = useContext(DefaultContext)
+  const convertStringToDate = (dateString: string) => {
+    const dateObject = new Date(dateString);
+    if (isNaN(dateObject.getTime())) {
+      return '';
+    }
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    return `${year}-${day}-${month}`;
+  };
 
   useEffect(() => {
     if (!open) return formik.resetForm();
+    setloading(false);
     if (editData) {
       const { name, date, address, status, image_url } = editData;
       const { street, city, neighborhood } = address;
 
       formik.setValues({
         name,
-        date,
-        address: {
-          city,
-          street,
-          neighborhood,
-        },
+        date: convertStringToDate(date),
+        city,
+        street,
+        neighborhood,
+
         image: null,
         image_url,
         status
@@ -52,10 +64,11 @@ const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister
       image_url: '',
     },
     onSubmit: async (values) => {
+      setloading(true)
       function convertDateFormat(inputDate: string) {
         return inputDate.split('-').reverse().join('/');
       }
-      const { name, city,street,neighborhood, date,image_url, image} = values;
+      const { name, city, street, neighborhood, date, image_url, image } = values;
 
       console.log(user)
       const data = {
@@ -74,9 +87,9 @@ const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister
 
       console.log(data);
       if (editData) {
-        await new EventDB().update(editData.id, data);
+        await new EventDB().update(editData.id, data).then(() => setloading(true));
       } else {
-        await new EventDB().create(data);
+        await new EventDB().create(data).then(() => setloading(true));
       }
       setIsClose();
     }
@@ -84,7 +97,7 @@ const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister
 
   const handleImage = useCallback((e) => {
     const [file] = Array.from(e.target.files)
-    
+
     formik.setValues({
       ...formik.values,
       image: file,
@@ -108,7 +121,7 @@ const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister
             component="h2"
             className="font-bold uppercase"
           >
-            Cadastro de evento
+            {!editData ? 'Cadastro de evento' : 'Atualização de evento'}
           </Typography>
 
           <Button onClick={setIsClose}>
@@ -215,16 +228,30 @@ const ModalRegisterEvent = ({ open, setIsOpen, setIsClose, editData }: IRegister
               Cancelar
             </Button>
 
-            <Button
-              className="text-white bg-primary rounded-lg font-bold py-2 px-4"
-              type="submit"
-            >
-              {editData ? 'Atualizar' : 'Confirmar'}
-            </Button>
+
+
+            {loading ? (
+              <Button
+                className="text-white bg-primary rounded-lg font-bold py-2 px-4 gap-2"
+
+              >
+                <CircularProgress color='success'  size={20}/>
+                Carregando...
+              </Button>
+            ) : (
+              <Button
+                className="text-white bg-primary rounded-lg font-bold py-2 px-4"
+                type="submit"
+                disabled={loading}
+              >
+                {editData ? 'Atualizar' : 'Confirmar'}
+              </Button>
+            )}
+
           </Box>
         </form>
-      </Box>
-    </Modal>
+      </Box >
+    </Modal >
   );
 };
 

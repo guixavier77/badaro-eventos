@@ -17,7 +17,7 @@ const Header = () => {
 
   const handleNavigate = () => {
     console.log('CLICADO')
-    router.push('login')
+    router.push('/login')
   }
   return (
     <header className="shadow-md">

@@ -2,6 +2,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormGroup,
   FormLabel,
   Input,
@@ -21,6 +22,7 @@ import { DefaultContext } from '@/contexts/default';
 
 const Login = () => {
   const [register, setregister] = useState(false)
+  const [loading, setloading] = useState(false)
   const [sucessRegister, setsucessRegister] = useState(false)
   const { user } = useContext(DefaultContext);
   const router = useRouter();
@@ -35,6 +37,7 @@ const Login = () => {
         password: '',
       },
       onSubmit: async (values) => {
+        setloading(true);
         console.log(values, '');
         if (values.email && values.password) {
           console.log('CAIU AQ')
@@ -45,10 +48,14 @@ const Login = () => {
           });
           console.log(res);
           if (res?.ok) {
+            setloading(false);
             router.push('/');
             console.log('resposta login: ', res);
           } else {
+            setloading(false);
             console.log('resposta login: ', res);
+            setLabelError('Opa, algo está errado, tente novamente.');
+
           }
         } else {
           setLabelError('Email e senha precisam ser preenchidos.');
@@ -89,19 +96,30 @@ const Login = () => {
           {labelError && <p className='text-red'>{labelError}</p>}
         </div>
 
-        <Button
-          type="submit"
-          className="mt-10 rounded-md border px-4 font-bold text-primary"
-          sx={{
-            border: '1px solid #006D3E',
-            '&:hover': {
-              bgcolor: '#006D3E',
-              color: '#FFFFFF',
-            },
-          }}
-        >
-          Acessar sua conta
-        </Button>
+        {loading ? (
+          <Button
+            className="text-white bg-primary rounded-lg font-bold py-2 px-4 gap-2"
+
+          >
+            <CircularProgress color='success' size={20} />
+            Carregando...
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="mt-10 rounded-md border px-4 font-bold text-primary"
+            sx={{
+              border: '1px solid #006D3E',
+              '&:hover': {
+                bgcolor: '#006D3E',
+                color: '#FFFFFF',
+              },
+            }}
+          >
+            Acessar sua conta
+          </Button>
+        )}
+
         <Button
           className="mt-2 rounded-md  bg-primary px-4 font-bold text-white"
           sx={{

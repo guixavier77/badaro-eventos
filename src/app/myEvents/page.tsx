@@ -13,6 +13,8 @@ import Image from 'next/image';
 import { FILTER_TYPE } from '@/types/filter';
 import { ROLE } from '@/types/roles';
 import EventDB from '@/database/wrappers/event';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
 
 const FilterOptions = [
   {
@@ -39,6 +41,11 @@ const MyEvents = () => {
 
   const handleFilterChange = (option: number) => {
     setFilterOption(option);
+  };
+
+  const handleOpenEdit = (item: any) => {
+    setOpenRegister(true);
+    setDataSelected(item);
   };
 
   const handleOpenRegister = () => {
@@ -140,7 +147,7 @@ const MyEvents = () => {
                       </div>
                       <div className='flex gap-2 my-2'>
                         <PlaceIcon />
-                        <p className='font-bold'>{event.address.city}, {event.address.neighborhood}, {event.address.street}</p>
+                        <p className='font-bold text-sm'>{event.address.city}, {event.address.neighborhood}, {event.address.street}</p>
                       </div>
 
 
@@ -156,6 +163,13 @@ const MyEvents = () => {
                     onClick={() => handleChangeStatus(event)}
                   >
                     {event.status ? 'APROVADO' : 'EM ESPERA'}
+                  </Button>
+
+                  <Button
+                    className='bg-[#00031F] w-full text-white font-bold mt-2'
+                    onClick={() => handleOpenEdit(event)}
+                  >
+                    Editar
                   </Button>
                 </div>
 
